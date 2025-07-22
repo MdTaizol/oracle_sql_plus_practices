@@ -1,0 +1,591 @@
+
+SQL*Plus: Release 21.0.0.0.0 - Production on Tue Jul 22 10:15:37 2025
+Version 21.3.0.0.0
+
+Copyright (c) 1982, 2021, Oracle.  All rights reserved.
+
+Enter user-name: system
+Enter password:
+Last Successful login time: Tue Jul 22 2025 08:59:35 +06:00
+
+Connected to:
+Oracle Database 21c Express Edition Release 21.0.0.0.0 - Production
+Version 21.3.0.0.0
+
+SQL> create table employee(emp_Id number primary key,name varchar2(50) NOT NULL,department varchar2(30),salary number(10,2),join_DATE DATE,gender char(1),email varchar2(100);
+create table employee(emp_Id number primary key,name varchar2(50) NOT NULL,department varchar2(30),salary number(10,2),join_DATE DATE,gender char(1),email varchar2(100)
+                                                                                                                                                                       *
+ERROR at line 1:
+ORA-00907: missing right parenthesis
+
+
+SQL> create table employee(emp_Id number primary key,name varchar2(50) NOT NULL,department varchar2(30),salary number(10,2),join_DATE DATE,gender char(1),email varchar2(100));
+
+Table created.
+
+SQL> insert into employee values(101,'alice','it',70000,to_date('2020-01-15','yyyy-mm-dd'),'f','alice@x.com');
+
+1 row created.
+
+SQL> insert into employee values(102,'bob','hr',50000,to_date('2021-01-15',yyyy-mm-dd'),'m','bob@x.com');
+ERROR:
+ORA-01756: quoted string not properly terminated
+
+
+SQL> insert into employee values(102,'bob','hr',50000,to_date('2021-01-15','yyyy-mm-dd'),'m','bob@x.com');
+
+1 row created.
+
+SQL> insert into employee values(103,'carlo','financ',85000,to_date('2022-07-15','yyyy-mm-dd'),'f',null);
+
+1 row created.
+
+SQL> insert into employee vlaues(104,'david','it',65000,to_date('2023-07-15','yyyy-mm-dd'),'m','david@x.com');
+insert into employee vlaues(104,'david','it',65000,to_date('2023-07-15','yyyy-mm-dd'),'m','david@x.com')
+                            *
+ERROR at line 1:
+ORA-00928: missing SELECT keyword
+
+
+SQL> insert into employee values(104,'david','it',65000,to_date('2023-07-15','yyyy-mm-dd'),'m','david@x.com');
+
+1 row created.
+
+SQL> insert into employee values(105,'eve','hr',50000,to_date('2024-07-15','yyyy-mm-dd'),'f'null);
+insert into employee values(105,'eve','hr',50000,to_date('2024-07-15','yyyy-mm-dd'),'f'null)
+                                                                                       *
+ERROR at line 1:
+ORA-00917: missing comma
+
+
+SQL> insert into employee values(105,'eve','hr',50000,to_date('2024-07-15','yyyy-mm-dd'),'f',null);
+
+1 row created.
+
+SQL> alter talbe employee add phone varchar2(15);
+alter talbe employee add phone varchar2(15)
+      *
+ERROR at line 1:
+ORA-00940: invalid ALTER command
+
+
+SQL>
+SQL> alter table employee add phone varchar2(15);
+
+Table altered.
+
+SQL> select * from employee;
+
+    EMP_ID NAME
+---------- --------------------------------------------------
+DEPARTMENT                         SALARY JOIN_DATE G
+------------------------------ ---------- --------- -
+EMAIL
+--------------------------------------------------------------------------------
+PHONE
+---------------
+       101 alice
+it                                  70000 15-JAN-20 f
+alice@x.com
+
+
+
+    EMP_ID NAME
+---------- --------------------------------------------------
+DEPARTMENT                         SALARY JOIN_DATE G
+------------------------------ ---------- --------- -
+EMAIL
+--------------------------------------------------------------------------------
+PHONE
+---------------
+       102 bob
+hr                                  50000 15-JAN-21 m
+bob@x.com
+
+
+
+    EMP_ID NAME
+---------- --------------------------------------------------
+DEPARTMENT                         SALARY JOIN_DATE G
+------------------------------ ---------- --------- -
+EMAIL
+--------------------------------------------------------------------------------
+PHONE
+---------------
+       103 carlo
+financ                              85000 15-JUL-22 f
+
+
+
+
+    EMP_ID NAME
+---------- --------------------------------------------------
+DEPARTMENT                         SALARY JOIN_DATE G
+------------------------------ ---------- --------- -
+EMAIL
+--------------------------------------------------------------------------------
+PHONE
+---------------
+       104 david
+it                                  65000 15-JUL-23 m
+david@x.com
+
+
+
+    EMP_ID NAME
+---------- --------------------------------------------------
+DEPARTMENT                         SALARY JOIN_DATE G
+------------------------------ ---------- --------- -
+EMAIL
+--------------------------------------------------------------------------------
+PHONE
+---------------
+       105 eve
+hr                                  50000 15-JUL-24 f
+
+
+
+
+SQL> alter table employee drop cloumn phone;
+alter table employee drop cloumn phone
+                          *
+ERROR at line 1:
+ORA-00905: missing keyword
+
+
+SQL> alter table employee drop column phone;
+
+Table altered.
+
+SQL> update employee set salary = 75000 where emp_id = 101;
+
+1 row updated.
+
+SQL> update employee set salary = salary + 5000 where department = 'it';
+
+2 rows updated.
+
+SQL> delete from employee where emp_id = 105;
+
+1 row deleted.
+
+SQL> select* from employee;
+
+    EMP_ID NAME
+---------- --------------------------------------------------
+DEPARTMENT                         SALARY JOIN_DATE G
+------------------------------ ---------- --------- -
+EMAIL
+--------------------------------------------------------------------------------
+       101 alice
+it                                  80000 15-JAN-20 f
+alice@x.com
+
+       102 bob
+hr                                  50000 15-JAN-21 m
+bob@x.com
+
+    EMP_ID NAME
+---------- --------------------------------------------------
+DEPARTMENT                         SALARY JOIN_DATE G
+------------------------------ ---------- --------- -
+EMAIL
+--------------------------------------------------------------------------------
+
+       103 carlo
+financ                              85000 15-JUL-22 f
+
+
+       104 david
+it                                  70000 15-JUL-23 m
+
+    EMP_ID NAME
+---------- --------------------------------------------------
+DEPARTMENT                         SALARY JOIN_DATE G
+------------------------------ ---------- --------- -
+EMAIL
+--------------------------------------------------------------------------------
+david@x.com
+
+
+SQL>
+SQL> rollback to brfore_change;
+rollback to brfore_change
+*
+ERROR at line 1:
+ORA-01086: savepoint 'BRFORE_CHANGE' never established in this session or is
+invalid
+
+
+SQL> ROLLBACK to before_change;
+ROLLBACK to before_change
+*
+ERROR at line 1:
+ORA-01086: savepoint 'BEFORE_CHANGE' never established in this session or is
+invalid
+
+
+SQL> commit;
+
+Commit complete.
+
+SQL> select distinct department from employee;
+
+DEPARTMENT
+------------------------------
+it
+hr
+financ
+
+SQL> select* from employee where salary between 60000 and 90000;
+
+    EMP_ID NAME
+---------- --------------------------------------------------
+DEPARTMENT                         SALARY JOIN_DATE G
+------------------------------ ---------- --------- -
+EMAIL
+--------------------------------------------------------------------------------
+       101 alice
+it                                  80000 15-JAN-20 f
+alice@x.com
+
+       103 carlo
+financ                              85000 15-JUL-22 f
+
+
+    EMP_ID NAME
+---------- --------------------------------------------------
+DEPARTMENT                         SALARY JOIN_DATE G
+------------------------------ ---------- --------- -
+EMAIL
+--------------------------------------------------------------------------------
+
+       104 david
+it                                  70000 15-JUL-23 m
+david@x.com
+
+
+SQL> select * from employee where email is null;
+
+    EMP_ID NAME
+---------- --------------------------------------------------
+DEPARTMENT                         SALARY JOIN_DATE G
+------------------------------ ---------- --------- -
+EMAIL
+--------------------------------------------------------------------------------
+       103 carlo
+financ                              85000 15-JUL-22 f
+
+
+
+SQL> select * from employee where name like 'a%';
+
+    EMP_ID NAME
+---------- --------------------------------------------------
+DEPARTMENT                         SALARY JOIN_DATE G
+------------------------------ ---------- --------- -
+EMAIL
+--------------------------------------------------------------------------------
+       101 alice
+it                                  80000 15-JAN-20 f
+alice@x.com
+
+
+SQL> select * from employee order by salary desc;
+
+    EMP_ID NAME
+---------- --------------------------------------------------
+DEPARTMENT                         SALARY JOIN_DATE G
+------------------------------ ---------- --------- -
+EMAIL
+--------------------------------------------------------------------------------
+       103 carlo
+financ                              85000 15-JUL-22 f
+
+
+       101 alice
+it                                  80000 15-JAN-20 f
+alice@x.com
+
+    EMP_ID NAME
+---------- --------------------------------------------------
+DEPARTMENT                         SALARY JOIN_DATE G
+------------------------------ ---------- --------- -
+EMAIL
+--------------------------------------------------------------------------------
+
+       104 david
+it                                  70000 15-JUL-23 m
+david@x.com
+
+       102 bob
+hr                                  50000 15-JAN-21 m
+
+    EMP_ID NAME
+---------- --------------------------------------------------
+DEPARTMENT                         SALARY JOIN_DATE G
+------------------------------ ---------- --------- -
+EMAIL
+--------------------------------------------------------------------------------
+bob@x.com
+
+
+SQL> select * from employee where salary >60000 and department = 'it';
+
+    EMP_ID NAME
+---------- --------------------------------------------------
+DEPARTMENT                         SALARY JOIN_DATE G
+------------------------------ ---------- --------- -
+EMAIL
+--------------------------------------------------------------------------------
+       101 alice
+it                                  80000 15-JAN-20 f
+alice@x.com
+
+       104 david
+it                                  70000 15-JUL-23 m
+david@x.com
+
+    EMP_ID NAME
+---------- --------------------------------------------------
+DEPARTMENT                         SALARY JOIN_DATE G
+------------------------------ ---------- --------- -
+EMAIL
+--------------------------------------------------------------------------------
+
+
+SQL> select* from employee where department='it' or deaprtment='hr';
+select* from employee where department='it' or deaprtment='hr'
+                                               *
+ERROR at line 1:
+ORA-00904: "DEAPRTMENT": invalid identifier
+
+
+SQL> select* from employee where department='it' or department='hr';
+
+    EMP_ID NAME
+---------- --------------------------------------------------
+DEPARTMENT                         SALARY JOIN_DATE G
+------------------------------ ---------- --------- -
+EMAIL
+--------------------------------------------------------------------------------
+       101 alice
+it                                  80000 15-JAN-20 f
+alice@x.com
+
+       102 bob
+hr                                  50000 15-JAN-21 m
+bob@x.com
+
+    EMP_ID NAME
+---------- --------------------------------------------------
+DEPARTMENT                         SALARY JOIN_DATE G
+------------------------------ ---------- --------- -
+EMAIL
+--------------------------------------------------------------------------------
+
+       104 david
+it                                  70000 15-JUL-23 m
+david@x.com
+
+
+SQL>  select * from employee where not department = 'financ';
+
+    EMP_ID NAME
+---------- --------------------------------------------------
+DEPARTMENT                         SALARY JOIN_DATE G
+------------------------------ ---------- --------- -
+EMAIL
+--------------------------------------------------------------------------------
+       101 alice
+it                                  80000 15-JAN-20 f
+alice@x.com
+
+       102 bob
+hr                                  50000 15-JAN-21 m
+bob@x.com
+
+    EMP_ID NAME
+---------- --------------------------------------------------
+DEPARTMENT                         SALARY JOIN_DATE G
+------------------------------ ---------- --------- -
+EMAIL
+--------------------------------------------------------------------------------
+
+       104 david
+it                                  70000 15-JUL-23 m
+david@x.com
+
+
+SQL>  select * from employee where email is not null;
+
+    EMP_ID NAME
+---------- --------------------------------------------------
+DEPARTMENT                         SALARY JOIN_DATE G
+------------------------------ ---------- --------- -
+EMAIL
+--------------------------------------------------------------------------------
+       101 alice
+it                                  80000 15-JAN-20 f
+alice@x.com
+
+       102 bob
+hr                                  50000 15-JAN-21 m
+bob@x.com
+
+    EMP_ID NAME
+---------- --------------------------------------------------
+DEPARTMENT                         SALARY JOIN_DATE G
+------------------------------ ---------- --------- -
+EMAIL
+--------------------------------------------------------------------------------
+
+       104 david
+it                                  70000 15-JUL-23 m
+david@x.com
+
+
+SQL> select name as "employee" and salary name as "income"from employee;
+select name as "employee" and salary name as "income"from employee
+                          *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected
+
+
+SQL> select name as "employee", and salary name as "income"from employee;
+select name as "employee", and salary name as "income"from employee
+                           *
+ERROR at line 1:
+ORA-00936: missing expression
+
+
+SQL> select name as "employee", salary name as "income"from employee;
+select name as "employee", salary name as "income"from employee
+                                       *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected
+
+
+SQL> select name as "employee", salary  as "income"from employee;
+
+employee                                               income
+-------------------------------------------------- ----------
+alice                                                   80000
+bob                                                     50000
+carlo                                                   85000
+david                                                   70000
+
+SQL> select * from employee where name like"a%";
+select * from employee where name like"a%"
+                                      *
+ERROR at line 1:
+ORA-00904: "a%": invalid identifier
+
+
+SQL> select * from employee where name like'a%';
+
+    EMP_ID NAME
+---------- --------------------------------------------------
+DEPARTMENT                         SALARY JOIN_DATE G
+------------------------------ ---------- --------- -
+EMAIL
+--------------------------------------------------------------------------------
+       101 alice
+it                                  80000 15-JAN-20 f
+alice@x.com
+
+
+SQL> select * from employee where name like'%e';
+
+    EMP_ID NAME
+---------- --------------------------------------------------
+DEPARTMENT                         SALARY JOIN_DATE G
+------------------------------ ---------- --------- -
+EMAIL
+--------------------------------------------------------------------------------
+       101 alice
+it                                  80000 15-JAN-20 f
+alice@x.com
+
+
+SQL> select * from employee where name like'%i%';
+
+    EMP_ID NAME
+---------- --------------------------------------------------
+DEPARTMENT                         SALARY JOIN_DATE G
+------------------------------ ---------- --------- -
+EMAIL
+--------------------------------------------------------------------------------
+       101 alice
+it                                  80000 15-JAN-20 f
+alice@x.com
+
+       104 david
+it                                  70000 15-JUL-23 m
+david@x.com
+
+    EMP_ID NAME
+---------- --------------------------------------------------
+DEPARTMENT                         SALARY JOIN_DATE G
+------------------------------ ---------- --------- -
+EMAIL
+--------------------------------------------------------------------------------
+
+
+SQL> select * from employee where department in ('it','hr');
+
+    EMP_ID NAME
+---------- --------------------------------------------------
+DEPARTMENT                         SALARY JOIN_DATE G
+------------------------------ ---------- --------- -
+EMAIL
+--------------------------------------------------------------------------------
+       101 alice
+it                                  80000 15-JAN-20 f
+alice@x.com
+
+       102 bob
+hr                                  50000 15-JAN-21 m
+bob@x.com
+
+    EMP_ID NAME
+---------- --------------------------------------------------
+DEPARTMENT                         SALARY JOIN_DATE G
+------------------------------ ---------- --------- -
+EMAIL
+--------------------------------------------------------------------------------
+
+       104 david
+it                                  70000 15-JUL-23 m
+david@x.com
+
+
+SQL> select * from employee where salary between 40000 and 80000;
+
+    EMP_ID NAME
+---------- --------------------------------------------------
+DEPARTMENT                         SALARY JOIN_DATE G
+------------------------------ ---------- --------- -
+EMAIL
+--------------------------------------------------------------------------------
+       101 alice
+it                                  80000 15-JAN-20 f
+alice@x.com
+
+       102 bob
+hr                                  50000 15-JAN-21 m
+bob@x.com
+
+    EMP_ID NAME
+---------- --------------------------------------------------
+DEPARTMENT                         SALARY JOIN_DATE G
+------------------------------ ---------- --------- -
+EMAIL
+--------------------------------------------------------------------------------
+
+       104 david
+it                                  70000 15-JUL-23 m
+david@x.com
+
+
+SQL>
